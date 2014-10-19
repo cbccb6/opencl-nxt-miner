@@ -1,0 +1,50 @@
+CC = cl
+OPENSSL_DIR = C:\Development\libs\OpenSSL-Win32
+PTHREADS_DIR = C:\Development\libs\pthreads-w32-2-8-0-release
+PCRE_DIR = C:\Development\libs\pcre-7.9
+CURL_DIR = C:\Development\libs\libcurl-7.19.3-win32-ssl-msvc
+OPENCL_DIR = "C:\Development\libs\opencl"
+OPENCL_INCLUDE = /I$(OPENCL_DIR)\include
+OPENCL_LIBS = $(OPENCL_DIR)\lib\x86\OpenCL.lib
+CURL_INCLUDE = /I$(CURL_DIR)\include /DCURL_STATICLIB
+CURL_LIBS = $(CURL_DIR)\lib\libcurl_a.lib
+CFLAGS_BASE = /D_WIN32 /DPTW32_STATIC_LIB /DPCRE_STATIC /I$(OPENSSL_DIR)\include /I$(PTHREADS_DIR) /I$(PCRE_DIR) /Ox /Zi
+CFLAGS = $(CFLAGS_BASE) /GL
+LIBS = $(OPENSSL_DIR)\lib\libeay32.lib $(PTHREADS_DIR)\pthreadVC2.lib $(PCRE_DIR)\pcre.lib ws2_32.lib user32.lib advapi32.lib gdi32.lib /LTCG /DEBUG
+OBJS = vanitygen.obj oclvanitygen.obj oclengine.obj oclvanityminer.obj keyconv.obj pattern.obj util.obj winglue.obj
+
+all: vanitygen.exe keyconv.exe
+
+vanitygen.exe: vanitygen.obj pattern.obj util.obj winglue.obj
+	link /nologo /out:$@ vanitygen.obj pattern.obj util.obj winglue.obj $(LIBS)
+
+oclvanitygen.exe: oclengine.obj pattern.obj util.obj winglue.obj  oclvanitygen.obj 
+	link /nologo /out:$@ oclvanitygen.obj oclengine.obj pattern.obj util.obj winglue.obj $(LIBS) $(OPENCL_LIBS)
+
+
+oclvanityminer.exe: oclvanityminer.obj oclengine.obj pattern.obj util.obj winglue.obj
+	link /nologo /out:$@ oclvanityminer.obj oclengine.obj pattern.obj util.obj winglue.obj $(LIBS) $(OPENCL_LIBS) $(CURL_LIBS)
+
+keyconv.exe: keyconv.obj util.obj winglue.obj
+	link /nologo /out:$@ keyconv.obj util.obj winglue.obj $(LIBS)
+
+
+oclengine.obj: oclengine.c
+	@$(CC) /nologo $(CFLAGS_BASE) $(OPENCL_INCLUDE) /c /Tpoclengine.c /Fo$@
+
+oclvanitygen.obj: oclvanitygen.c
+	@$(CC) /nologo $(CFLAGS_BASE) /c /Tpoclvanitygen.c /Fo$@
+winglue.obj: winglue.c
+	@$(CC) /nologo $(CFLAGS_BASE) /c /Tpwinglue.c /Fo$@
+util.obj: util.c
+	@$(CC) /nologo $(CFLAGS_BASE) /c /Tputil.c /Fo$@
+pattern.obj: pattern.c
+	@$(CC) /nologo $(CFLAGS_BASE) /c /Tppattern.c /Fo$@
+.c.obj:
+	@$(CC) /nologo $(CFLAGS) /c /Tp$< /Fo$@
+
+oclvanityminer.obj: oclvanityminer.c
+	@$(CC) /nologo $(CFLAGS_BASE) $(CURL_INCLUDE) /c /Tpoclvanityminer.c /Fo
+
+clean:
+	del vanitygen.exe oclvanitygen.exe oclvanityminer.exe keyconv.exe $(OBJS)
