@@ -950,7 +950,7 @@ hash_ec_point(uint *hash_out, __global bn_word *xy, __global bn_word *zip)
 	bn_from_mont(&c, &c);
 
 
-	bn_mod_sub(&c,&c,&subb);
+	bn_mod_sub(&c,&c,(bignum*)&subb);
 
 	#define hash_ec_point_inner_3(i)		\
 		hash1[7-i] = bswap32(c.d[(BN_NWORDS - 1) - i]);
@@ -996,7 +996,7 @@ hash_ec_point_normalize_only(uint *hash_out, __global bn_word *xy, __global bn_w
 	bn_from_mont(&c, &c);
 
 
-	bn_mod_sub(&c,&c,&subb);
+	bn_mod_sub(&c,&c,(bignum*)&subb);
 
 	#define hash_ec_point_inner_3(i)		\
 		hash1[7-i] = bswap32(c.d[(BN_NWORDS - 1) - i]);
