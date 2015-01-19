@@ -1258,10 +1258,8 @@ vg_prefix_context_next_difficulty(vg_prefix_context_t *vcpp,
 				  BIGNUM *bntmp, BIGNUM *bntmp2, BN_CTX *bnctx)
 {
 	if (system("CLS")) system("clear");
-	printf("\n\n\n\033[1mHIBERNXT ACCOUNT MINER\n");
-	printf("======================\033[0m\n\n");
-		printf("TERMS: All HiberNXT coins that are found, will be split among all participants\nbased upon their proportional contribution to the overall computing power\n");
-		printf("at the time the coins were found. The contribution is calculated from the number\nof valid shares ever submitted. Make sure you specified the correct account / payout address.\n\n");
+	printf("\n\n\n\033[1mBITPROBING.COM\n");
+	             printf("==============\033[0m\n\n");
 		printf(MAKE_YELLOW);
 		printf("Account: ");
 		printf(address);

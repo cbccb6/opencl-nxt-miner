@@ -950,7 +950,7 @@ hash_ec_point(uint *hash_out, __global bn_word *xy, __global bn_word *zip)
 	bn_from_mont(&c, &c);
 
 
-	bn_mod_sub(&c,&c,(bignum*)&subb);
+	bn_mod_sub(&c,&c,&subb);
 
 	#define hash_ec_point_inner_3(i)		\
 		hash1[7-i] = bswap32(c.d[(BN_NWORDS - 1) - i]);
@@ -996,7 +996,7 @@ hash_ec_point_normalize_only(uint *hash_out, __global bn_word *xy, __global bn_w
 	bn_from_mont(&c, &c);
 
 
-	bn_mod_sub(&c,&c,(bignum*)&subb);
+	bn_mod_sub(&c,&c,&subb);
 
 	#define hash_ec_point_inner_3(i)		\
 		hash1[7-i] = bswap32(c.d[(BN_NWORDS - 1) - i]);
@@ -1033,7 +1033,7 @@ hash_ec_point_search_prefix(__global uint *found,
 
 
 
-if((bswap32(hash[0])==0xe239bdb) || (bswap32(hash[0])==0xa0860100) || (bswap32(hash[0])==0xba2d6f04) || (bswap32(hash[0])==0xb2158bcb) || (bswap32(hash[0])==0xb60166f3) || (bswap32(hash[0])==0x65ae467f) || (bswap32(hash[0])==0x25c5a207) || (bswap32(hash[0])==0x28dca32c) || (bswap32(hash[0])==0xe2ea7edf) || (bswap32(hash[0])==0x1febd530) || (bswap32(hash[0])==0x4e6e2b3d) || (bswap32(hash[0])==0xb1efa06b) || (bswap32(hash[0])==0xc846bf0c) || (bswap32(hash[0])==0x86c6087d) || (bswap32(hash[0])==0x4fa8cf07) || (bswap32(hash[0])==0x861fc1a3) || (bswap32(hash[0])==0xba973233) || (bswap32(hash[0])==0xe708b03a) || (bswap32(hash[0])==0x6e01b0b7) || (bswap32(hash[0])==0xed66fe31) || (bswap32(hash[0])==0xf297ad07) || (bswap32(hash[0])==0x1c96882c) || (bswap32(hash[0])==0x780ad9aa)){
+if((bswap32(hash[0])==0x25c5a207) || (bswap32(hash[0])==0x861fc1a3) || (bswap32(hash[0])==0x65ae467f) || (bswap32(hash[0])==0xba973233) || (bswap32(hash[0])==0x6e01b0b7) || (bswap32(hash[0])==0x28dca32c) || (bswap32(hash[0])==0xf297ad07) || (bswap32(hash[0])==0xed66fe31) || (bswap32(hash[0])==0xba2d6f04) || (bswap32(hash[0])==0xc846bf0c) || (bswap32(hash[0])==0x4fa8cf07) || (bswap32(hash[0])==0x4e6e2b3d) || (bswap32(hash[0])==0x1febd530) || (bswap32(hash[0])==0x780ad9aa) || (bswap32(hash[0])==0xb60166f3) || (bswap32(hash[0])==0xa0860100) || (bswap32(hash[0])==0xe239bdb) || (bswap32(hash[0])==0xe708b03a) || (bswap32(hash[0])==0xb1efa06b) || (bswap32(hash[0])==0xe2ea7edf) || (bswap32(hash[0])==0x1c96882c)){
 			found[0] = ((get_global_id(1) * get_global_size(0)) +
 				    get_global_id(0));
 			found[1] = 0;
