@@ -74,7 +74,7 @@ typedef struct {
 
 __constant bn_word modulus[] = { MODULUS_BYTES };
 __constant bignum bn_zero = {0,0,0,0};
-__constant bignum subb = {SUBB_BYTES};
+
 
 #define bn_is_odd(bn)		(bn.d[0] & 1)
 #define bn_is_even(bn) 		(!bn_is_odd(bn))
@@ -916,6 +916,8 @@ hash_ec_point(uint *hash_out, __global bn_word *xy, __global bn_word *zip)
 	bignum c, zi, zzi;
 	bn_word wh, wl;
 
+	bignum subb = {SUBB_BYTES};
+
 	hash1[0] = 0; 
 	hash1[1] = 0;
 	hash1[2] = 0;
@@ -950,7 +952,7 @@ hash_ec_point(uint *hash_out, __global bn_word *xy, __global bn_word *zip)
 	bn_from_mont(&c, &c);
 
 
-	bn_mod_sub(&c,&c,(bignum*)&subb);
+	bn_mod_sub(&c,&c,&subb);
 
 	#define hash_ec_point_inner_3(i)		\
 		hash1[7-i] = bswap32(c.d[(BN_NWORDS - 1) - i]);
@@ -978,7 +980,7 @@ hash_ec_point_normalize_only(uint *hash_out, __global bn_word *xy, __global bn_w
 	bignum c, zi, zzi;
 	bn_word wh, wl;
 
-
+	bignum subb = {SUBB_BYTES};
 #define hash_ec_point_inner_1(i)		\
 	zi.d[i] = zip[i*ACCESS_STRIDE];
 
@@ -996,10 +998,11 @@ hash_ec_point_normalize_only(uint *hash_out, __global bn_word *xy, __global bn_w
 	bn_from_mont(&c, &c);
 
 
-	bn_mod_sub(&c,&c,(bignum*)&subb);
+	bn_mod_sub(&c,&c,&subb);
 
 	#define hash_ec_point_inner_3(i)		\
 		hash1[7-i] = bswap32(c.d[(BN_NWORDS - 1) - i]);
+	
 		bn_unroll(hash_ec_point_inner_3);
 	
 
