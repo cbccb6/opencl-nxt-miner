@@ -1634,6 +1634,7 @@ fprintf(stderr, "\nGPU hash:\t");
 			       "Start delta: %d\n",
 			       found_delta, orig_delta);*/
 						dumpkey(vxcp->vxc_key);
+					
 
 		
 		

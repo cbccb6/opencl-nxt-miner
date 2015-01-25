@@ -778,7 +778,8 @@ ec_add_grid(__global bn_word *points_out, __global bn_word *z_heap,
 
 	bn_unroll(ec_add_grid_inner_4);
 
-	bn_mod_lshift1(&y1);
+
+	/*bn_mod_lshift1(&y1);
 	bn_mod_sub(&y1, &e, &y1);
 	bn_mul_mont(&y1, &y1, &b);
 	bn_mul_mont(&a, &x1, &z);
@@ -792,7 +793,7 @@ ec_add_grid(__global bn_word *points_out, __global bn_word *z_heap,
 
 	start += (ACCESS_STRIDE/2);
 
-	bn_unroll(ec_add_grid_inner_4);
+	bn_unroll(ec_add_grid_inner_4);*/
 
 
 }
