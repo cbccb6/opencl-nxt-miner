@@ -88,7 +88,7 @@ char* address;
 int
 main(int argc, char **argv)
 {
-	address=malloc(sizeof(char)*255);
+	address=(char*)malloc(sizeof(char)*255);
 	address[0]=0;
 	int addrtype = 0;
 	int privtype = 128;

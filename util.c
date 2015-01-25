@@ -70,7 +70,17 @@ fdumphex(FILE *fp, const unsigned char *src, size_t len)
 }
 
 void
-fdumpbn(char *fp, const BIGNUM *bn)
+fdumpbn(FILE *fp, const BIGNUM *bn)
+{
+	char *buf;
+	buf = BN_bn2hex(bn);
+	fprintf(fp, "%s\n", buf ? buf : "0");
+	if (buf)
+		OPENSSL_free(buf);
+}
+
+void
+sdumpbn(char *fp, const BIGNUM *bn)
 {
 	char *buf;
 	buf = BN_bn2hex(bn);

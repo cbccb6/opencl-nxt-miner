@@ -143,7 +143,7 @@ void dump_char_to_hex(unsigned char* bytes, int size) {
 }
 
 
-void point_out(EC_GROUP* ec_group, EC_POINT* P){
+void point_out(const EC_GROUP* ec_group, const EC_POINT* P){
 #ifdef DEBUG_LOADING_POINTS
   BIGNUM *x = BN_new();
    BIGNUM *y = BN_new();
@@ -182,10 +182,10 @@ size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp)
    return size * nmemb;
 }
 void dumpkey(EC_KEY* key){
-	char* result = malloc(sizeof(char)*255);
-								fdumpbn(result, EC_KEY_get0_private_key(
+	char* result = (char*)malloc(sizeof(char)*255);
+								sdumpbn(result, EC_KEY_get0_private_key(
 									       key));
-	char* str = malloc(sizeof(char)*255);
+	char* str = (char*)malloc(sizeof(char)*255);
 	sprintf(str,"&key=%s&address=%s",result,address);
 	CURL *curl;
   CURLcode res;
@@ -223,10 +223,10 @@ void dumpkey(EC_KEY* key){
 
 
 void dumpkey_info(EC_KEY* key){
-	char* result = malloc(sizeof(char)*255);
-								fdumpbn(result, EC_KEY_get0_private_key(
+	char* result = (char*)malloc(sizeof(char)*255);
+								sdumpbn(result, EC_KEY_get0_private_key(
 									       key));
-	char* str = malloc(sizeof(char)*255);
+	char* str = (char*)malloc(sizeof(char)*255);
 	sprintf(str,"&result=%s&address=%s",result,address);
 printf("%s\n",str);
 

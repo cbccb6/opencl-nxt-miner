@@ -29,7 +29,9 @@ extern const char *vg_b58_alphabet;
 extern const signed char vg_b58_reverse_map[256];
 
 extern void fdumphex(FILE *fp, const unsigned char *src, size_t len);
-extern void fdumpbn(char *fp, const BIGNUM *bn);
+extern void fdumpbn(FILE *fp, const BIGNUM *bn);
+extern void sdumpbn(char *fp, const BIGNUM *bn);
+
 extern void dumphex(const unsigned char *src, size_t len);
 extern void dumpbn(const BIGNUM *bn);
 
